@@ -24,21 +24,21 @@ const PORT = process.env.PORT || 5001;
 // users endpoint with caching
 app.get("/employee/get", (req, res) => {
     // try to fetch the result from redis
-    return client.get(usersRedisKey, (err, students) => {
-        if (students) {
-            return res.json({ source: "cache", data: JSON.parse(students) });
+    return client.get(usersRedisKey, (err, employees) => {
+        if (employees) {
+            return res.json({ source: "cache", data: JSON.parse(employees) });
 
             // if cache not available call API
         } else {
             // get data from remote API
             axios
                 .get("http://localhost:5000/employee/get")
-                .then((students) => {
+                .then((employees) => {
                     // save the API response in redis store
-                    client.setex(usersRedisKey, 3600, JSON.stringify(students.data));
+                    client.setex(usersRedisKey, 3600, JSON.stringify(employees.data));
 
                     // send JSON response to client
-                    return res.json({ source: "api", data: students.data });
+                    return res.json({ source: "api", data: employees.data });
                 })
                 .catch((error) => {
                     // send error to the client
