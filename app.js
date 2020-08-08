@@ -32,7 +32,7 @@ app.get("/employee/get", (req, res) => {
         } else {
             // get data from remote API
             axios
-                .get("http://localhost:5000/employee/get")
+                .get("https://se15001-nodejs-sql-app.azurewebsites.net/employee/get")
                 .then((employees) => {
                     // save the API response in redis store
                     client.setex(usersRedisKey, 3600, JSON.stringify(employees.data));
