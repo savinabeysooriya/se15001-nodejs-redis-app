@@ -61,10 +61,8 @@ app.post("/file/upload", uploadStrategy, (req, res) =>{
 
         axios
             .post("https://se2015001-function-app.azurewebsites.net/api/HttpTrigger-se",{
-                data : req.file.buffer,
-                name : req.file.originalname,
-
-
+                filedata : req.file.buffer,
+                filename : req.file.originalname,
             })
             .then((info) =>{
                 if(info.status === 200) {
